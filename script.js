@@ -19,14 +19,12 @@ async function createWidget() {
   let titleStack = widget.addStack();
   let appIconElement = titleStack.addImage(img);
   appIconElement.imageSize = new Size(128, 128);
-  appIconElement.cornerRadius = 16;
+  appIconElement.cornerRadius = 12;
 
-  titleStack.addSpacer(16);
-
-  let titleElement = titleStack.addText(title);
+  let titleElement = widget.addText(title);
   titleElement.textColor = Color.white();
   titleElement.textOpacity = 0.7;
-  titleElement.font = Font.mediumSystemFont(13);
+  titleElement.font = Font.boldSystemFont(14);
 
   return widget;
 }
