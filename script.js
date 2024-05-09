@@ -16,6 +16,10 @@ async function createWidget() {
   gradient.colors = [new Color("00A2E8 "), new Color("#39C5BB")];
   widget.backgroundGradient = gradient;
 
+  let titleStack = widget.addStack();
+  let appIconElement = titleStack.addImage(img);
+  appIconElement.imageSize = new Size(128, 128);
+
   return widget;
 }
 
