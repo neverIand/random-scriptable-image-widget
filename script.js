@@ -16,15 +16,27 @@ async function createWidget() {
   gradient.colors = [new Color("00A2E8 "), new Color("#39C5BB")];
   widget.backgroundGradient = gradient;
 
-  let titleStack = widget.addStack();
-  let appIconElement = titleStack.addImage(img);
-  appIconElement.imageSize = new Size(128, 128);
-  appIconElement.cornerRadius = 12;
+  // let titleStack = widget.addStack();
+  // let appIconElement = titleStack.addImage(img);
+  // appIconElement.imageSize = new Size(128, 128);
+  // appIconElement.cornerRadius = 12;
 
-  let titleElement = widget.addText(title);
+  // let titleElement = widget.addText(title);
+  // titleElement.textColor = Color.white();
+  // titleElement.textOpacity = 0.7;
+  // titleElement.font = Font.boldSystemFont(18);
+
+  let titleStack = widget.addStack();
+  let titleElement = titleStack.addText(title);
   titleElement.textColor = Color.white();
   titleElement.textOpacity = 0.7;
-  titleElement.font = Font.boldSystemFont(14);
+  titleElement.font = Font.boldSystemFont(18);
+
+  widget.addSpacer(12);
+
+  let imageElement = widget.addImage(img);
+  imageElement.imageSize = new Size(128, 128);
+  imageElement.cornerRadius = 12;
 
   return widget;
 }
