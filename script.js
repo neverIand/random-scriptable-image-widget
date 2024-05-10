@@ -11,32 +11,27 @@ async function createWidget() {
   let title = "我去，";
   let widget = new ListWidget();
 
-  let gradient = new LinearGradient();
-  gradient.locations = [0, 1];
-  gradient.colors = [new Color("00A2E8 "), new Color("#39C5BB")];
-  widget.backgroundGradient = gradient;
-
-  // let titleStack = widget.addStack();
-  // let appIconElement = titleStack.addImage(img);
-  // appIconElement.imageSize = new Size(128, 128);
-  // appIconElement.cornerRadius = 12;
-
-  // let titleElement = widget.addText(title);
-  // titleElement.textColor = Color.white();
-  // titleElement.textOpacity = 0.7;
-  // titleElement.font = Font.boldSystemFont(18);
+  // let gradient = new LinearGradient();
+  // gradient.locations = [0, 1];
+  // gradient.colors = [new Color("00A2E8 "), new Color("#39C5BB")];
+  // widget.backgroundGradient = gradient;
+  widget.backgroundImage = img;
 
   let titleStack = widget.addStack();
   let titleElement = titleStack.addText(title);
   titleElement.textColor = Color.white();
-  titleElement.textOpacity = 0.7;
-  titleElement.font = Font.boldSystemFont(18);
+  titleElement.textOpacity = 0.9;
+  titleElement.font = Font.boldSystemFont(24);
 
-  widget.addSpacer(12);
+  widget.addSpacer(4);
 
-  let imageElement = widget.addImage(img);
-  imageElement.imageSize = new Size(128, 128);
-  imageElement.cornerRadius = 12;
+  const date = new Date();
+  if (date.getMonth() === 4 && date.getDate() === 10) {
+    let textElement = widget.addText("生日快乐，cmx");
+    titleElement.textColor = Color.white();
+    titleElement.textOpacity = 0.8;
+    titleElement.font = Font.boldSystemFont(20);
+  }
 
   return widget;
 }
