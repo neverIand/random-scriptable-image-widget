@@ -25,12 +25,11 @@ async function createWidget() {
 
   widget.addSpacer(4);
 
-  const date = new Date();
-  if (date.getMonth() === 4 && date.getDate() === 10) {
+  if (isBDay()) {
     let textElement = widget.addText("生日快乐，cmx");
-    titleElement.textColor = Color.white();
-    titleElement.textOpacity = 0.8;
-    titleElement.font = Font.boldSystemFont(20);
+    textElement.textColor = Color.white();
+    textElement.textOpacity = 0.8;
+    textElement.font = Font.boldSystemFont(20);
   }
 
   return widget;
@@ -38,7 +37,9 @@ async function createWidget() {
 
 async function loadImgMetaData() {
   // see loremflickr docs
-  let url = "https://loremflickr.com/json/g/540/540/vocaloid/all?random=1";
+  let url = isBDay()
+    ? "https://loremflickr.com/json/g/540/540/birthday,cake/all?random=1"
+    : "https://loremflickr.com/json/g/540/540/vocaloid/all?random=1";
   let req = new Request(url);
   return await req.loadJSON();
 }
@@ -48,4 +49,9 @@ async function loadRandomVocaloidImage() {
   let url = data.file;
   let req = new Request(url);
   return req.loadImage();
+}
+
+function isBDay() {
+  const date = new Date();
+  return date.getMonth() === 4 && date.getDate() === 10;
 }
