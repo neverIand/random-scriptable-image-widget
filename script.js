@@ -39,7 +39,7 @@ async function loadImgMetaData() {
   // see loremflickr docs
   let url = isBDay()
     ? "https://loremflickr.com/json/g/540/540/cake,round/all?random=1"
-    : "https://loremflickr.com/json/g/540/540/vocaloid/all?random=1";
+    : "https://loremflickr.com/json/g/540/540/vocaloid,miku/all?random=1";
   let req = new Request(url);
   return await req.loadJSON();
 }
