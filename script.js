@@ -20,15 +20,15 @@ async function createWidget() {
   let titleStack = widget.addStack();
   let titleElement = titleStack.addText(title);
   titleElement.textColor = Color.white();
-  titleElement.textOpacity = 0.9;
+  titleElement.textOpacity = 0.95;
   titleElement.font = Font.boldSystemFont(24);
 
   widget.addSpacer(4);
 
   if (isBDay()) {
-    let textElement = widget.addText("生日快乐，cmx");
+    let textElement = widget.addText("生日快乐，蔡宝");
     textElement.textColor = Color.white();
-    textElement.textOpacity = 0.8;
+    textElement.textOpacity = 0.9;
     textElement.font = Font.boldSystemFont(20);
   }
 
@@ -38,7 +38,7 @@ async function createWidget() {
 async function loadImgMetaData() {
   // see loremflickr docs
   let url = isBDay()
-    ? "https://loremflickr.com/json/g/540/540/birthday,cake/all?random=1"
+    ? "https://loremflickr.com/json/g/540/540/cake,round/all?random=1"
     : "https://loremflickr.com/json/g/540/540/vocaloid/all?random=1";
   let req = new Request(url);
   return await req.loadJSON();
