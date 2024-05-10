@@ -53,5 +53,5 @@ async function loadRandomVocaloidImage() {
 
 function isBDay() {
   const date = new Date();
-  return date.getMonth() === 4 && date.getDate() === 10;
+  return date.getMonth() === 4 && date.getDate() === 13;
 }
