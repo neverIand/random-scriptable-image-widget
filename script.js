@@ -2,10 +2,9 @@ const SCRIPT_CONFIG = {
   title: "",
   month: 5,
   day: 13,
-  bDayMsg: "生日快乐，蔡宝",
-  // TODO? a object that stores all dates and keywords
+  bDayMsg: "",
   specialDates: {
-    // Jan: Map<number, array> // <month, keywords>
+    // Jan: Map<number, array> // <day, keywords>
     // ...
   },
   imgKeywords: ["cat", "loaf"].join(","),
