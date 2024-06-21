@@ -1,9 +1,14 @@
 const SCRIPT_CONFIG = {
-  title: "我去，",
+  title: "",
   month: 5,
-  date: 13,
-  msg: "生日快乐，蔡宝",
-  imgKeywords: ["vocaloid", "miku"].join(","),
+  day: 13,
+  bDayMsg: "生日快乐，蔡宝",
+  // TODO? a object that stores all dates and keywords
+  specialDates: {
+    // Jan: Map<number, array> // <month, keywords>
+    // ...
+  },
+  imgKeywords: ["cat", "loaf"].join(","),
   bDayImgKeywords: ["cake", "round"].join(","),
 };
 
@@ -16,7 +21,7 @@ if (config.runsInWidget) {
 Script.complete();
 
 async function createWidget() {
-  let img = await loadRandomVocaloidImage();
+  let img = await loadRandomImage();
   let widget = new ListWidget();
 
   // let gradient = new LinearGradient();
@@ -34,7 +39,7 @@ async function createWidget() {
   widget.addSpacer(4);
 
   if (isBDay()) {
-    let textElement = widget.addText(SCRIPT_CONFIG.msg);
+    let textElement = widget.addText(SCRIPT_CONFIG.bDayMsg);
     textElement.textColor = Color.white();
     textElement.textOpacity = 0.9;
     textElement.font = Font.boldSystemFont(20);
@@ -44,15 +49,15 @@ async function createWidget() {
 }
 
 async function loadImgMetaData() {
-  // see loremflickr docs
+  const { bDayImgKeywords, imgKeywords } = SCRIPT_CONFIG;
   let url = isBDay()
-    ? `https://loremflickr.com/json/g/540/540/${SCRIPT_CONFIG.bDayImgKeywords}/all?random=1`
-    : `https://loremflickr.com/json/g/540/540/${SCRIPT_CONFIG.imgKeywords}/all?random=1`;
+    ? `https://loremflickr.com/json/g/540/540/${bDayImgKeywords}/all?random=1`
+    : `https://loremflickr.com/json/g/540/540/${imgKeywords}/all?random=1`;
   let req = new Request(url);
   return await req.loadJSON();
 }
 
-async function loadRandomVocaloidImage() {
+async function loadRandomImage() {
   let data = await loadImgMetaData();
   let url = data.file;
   let req = new Request(url);
@@ -60,9 +65,10 @@ async function loadRandomVocaloidImage() {
 }
 
 function isBDay() {
+  const { month, day } = SCRIPT_CONFIG;
+  if (!month || !day) {
+    return false;
+  }
   const date = new Date();
-  return (
-    date.getMonth() === SCRIPT_CONFIG.month - 1 &&
-    date.getDate() === SCRIPT_CONFIG.date
-  );
+  return date.getMonth() === month - 1 && date.getDate() === day;
 }
