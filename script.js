@@ -18,8 +18,8 @@ const SCRIPT_CONFIG = {
     null,
     null,
   ],
-  imgKeywords: ["cat", "loaf"].join(","),
-  bDayImgKeywords: ["cake", "round"].join(","),
+  imgKeywords: ["cat", "loaf"],
+  bDayImgKeywords: ["cake", "round"],
 };
 
 let widget = await createWidget();
