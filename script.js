@@ -5,13 +5,12 @@ const SCRIPT_CONFIG = {
   bDayMsg: "",
   // Jan: 0, Feb: 1, ...
   specialDates: [
-    /* Map<number, array> // index: month; <day, keywords> */
     null,
     null,
     null,
     null,
     null,
-    new Map([[22, "Today is June 22th"]]),
+    new Map([[22, { msg: "Today is June 22th", keywords: ["bunny"] }]]),
     null,
     null,
     null,
@@ -32,17 +31,12 @@ if (config.runsInWidget) {
 Script.complete();
 
 async function createWidget() {
-  const date = new Date();
-  //!TODO: refactor so that loadRandomImage takes keywords instead of date
-  let img = await loadRandomImage(date);
-
   let widget = new ListWidget();
 
   // let gradient = new LinearGradient();
   // gradient.locations = [0, 1];
   // gradient.colors = [new Color("00A2E8 "), new Color("#39C5BB")];
   // widget.backgroundGradient = gradient;
-  
 
   let titleStack = widget.addStack();
   let titleElement = titleStack.addText(SCRIPT_CONFIG.title);
@@ -52,13 +46,23 @@ async function createWidget() {
 
   widget.addSpacer(4);
 
+  let img;
+  const date = new Date();
+  const { imgKeywords, bDayImgKeywords, bDayMsg, specialDates } = SCRIPT_CONFIG;
+
   if (isBDay(date)) {
-    renderMsg(widget, SCRIPT_CONFIG.bDayMsg);
+    img = await loadRandomImage(bDayImgKeywords);
+    renderMsg(widget, bDayMsg);
   } else if (isSpecialDay(date)) {
+    img = await loadRandomImage(
+      specialDates[date.getMonth()].get(date.getDate()).keywords
+    );
     renderMsg(
       widget,
-      SCRIPT_CONFIG.specialDates[date.getMonth()].get(date.getDate()) || ""
+      specialDates[date.getMonth()].get(date.getDate()).msg || ""
     );
+  } else {
+    img = await loadRandomImage(imgKeywords);
   }
 
   widget.backgroundImage = img;
@@ -66,11 +70,10 @@ async function createWidget() {
   return widget;
 }
 
-async function loadImgMetaData(date) {
-  const { bDayImgKeywords, imgKeywords } = SCRIPT_CONFIG;
-  let url = isBDay(date)
-    ? `https://loremflickr.com/json/g/540/540/${bDayImgKeywords}/all?random=1`
-    : `https://loremflickr.com/json/g/540/540/${imgKeywords}/all?random=1`;
+async function loadImgMetaData(keywords) {
+  let url = `https://loremflickr.com/json/g/540/540/${keywords.join(
+    ","
+  )}/all?random=1`;
   let req = new Request(url);
   return await req.loadJSON();
 }
