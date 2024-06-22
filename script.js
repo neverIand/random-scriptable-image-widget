@@ -55,7 +55,8 @@ async function createWidget() {
     renderMsg(widget, bDayMsg);
   } else if (isSpecialDay(date)) {
     img = await loadRandomImage(
-      specialDates[date.getMonth()].get(date.getDate()).keywords || ["cat"]
+      // could use some other image to indicate there's no custom keywords
+      specialDates[date.getMonth()].get(date.getDate()).keywords || ["cat", "loaf"]
     );
     renderMsg(
       widget,
