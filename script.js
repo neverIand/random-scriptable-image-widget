@@ -55,7 +55,7 @@ async function createWidget() {
     renderMsg(widget, bDayMsg);
   } else if (isSpecialDay(date)) {
     img = await loadRandomImage(
-      specialDates[date.getMonth()].get(date.getDate()).keywords
+      specialDates[date.getMonth()].get(date.getDate()).keywords || ["cat"]
     );
     renderMsg(
       widget,
@@ -78,8 +78,8 @@ async function loadImgMetaData(keywords) {
   return await req.loadJSON();
 }
 
-async function loadRandomImage() {
-  let data = await loadImgMetaData();
+async function loadRandomImage(keywords) {
+  let data = await loadImgMetaData(keywords);
   let url = data.file;
   let req = new Request(url);
   return req.loadImage();
