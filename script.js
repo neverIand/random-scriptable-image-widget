@@ -32,14 +32,17 @@ if (config.runsInWidget) {
 Script.complete();
 
 async function createWidget() {
-  let img = await loadRandomImage();
+  const date = new Date();
+  //!TODO: refactor so that loadRandomImage takes keywords instead of date
+  let img = await loadRandomImage(date);
+
   let widget = new ListWidget();
 
   // let gradient = new LinearGradient();
   // gradient.locations = [0, 1];
   // gradient.colors = [new Color("00A2E8 "), new Color("#39C5BB")];
   // widget.backgroundGradient = gradient;
-  widget.backgroundImage = img;
+  
 
   let titleStack = widget.addStack();
   let titleElement = titleStack.addText(SCRIPT_CONFIG.title);
@@ -49,7 +52,6 @@ async function createWidget() {
 
   widget.addSpacer(4);
 
-  const date = new Date();
   if (isBDay(date)) {
     renderMsg(widget, SCRIPT_CONFIG.bDayMsg);
   } else if (isSpecialDay(date)) {
@@ -59,12 +61,14 @@ async function createWidget() {
     );
   }
 
+  widget.backgroundImage = img;
+
   return widget;
 }
 
-async function loadImgMetaData() {
+async function loadImgMetaData(date) {
   const { bDayImgKeywords, imgKeywords } = SCRIPT_CONFIG;
-  let url = isBDay()
+  let url = isBDay(date)
     ? `https://loremflickr.com/json/g/540/540/${bDayImgKeywords}/all?random=1`
     : `https://loremflickr.com/json/g/540/540/${imgKeywords}/all?random=1`;
   let req = new Request(url);
