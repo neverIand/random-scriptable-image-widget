@@ -3,10 +3,22 @@ const SCRIPT_CONFIG = {
   month: 5,
   day: 13,
   bDayMsg: "",
-  specialDates: {
-    // Jan: Map<number, array> // <day, keywords>
-    // ...
-  },
+  // Jan: 0, Feb: 1, ...
+  specialDates: [
+    /* Map<number, array> // index: month; <day, keywords> */
+    null,
+    null,
+    null,
+    null,
+    null,
+    new Map([[22, "Today is June 22th"]]),
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+  ],
   imgKeywords: ["cat", "loaf"].join(","),
   bDayImgKeywords: ["cake", "round"].join(","),
 };
@@ -38,10 +50,13 @@ async function createWidget() {
   widget.addSpacer(4);
 
   if (isBDay()) {
-    let textElement = widget.addText(SCRIPT_CONFIG.bDayMsg);
-    textElement.textColor = Color.white();
-    textElement.textOpacity = 0.9;
-    textElement.font = Font.boldSystemFont(20);
+    renderMsg(widget, SCRIPT_CONFIG.bDayMsg);
+  } else if (isSpecialDay()) {
+    const date = new Date();
+    renderMsg(
+      widget,
+      SCRIPT_CONFIG.specialDates[date.getMonth()].get(date.getDate()) || ""
+    );
   }
 
   return widget;
@@ -70,4 +85,29 @@ function isBDay() {
   }
   const date = new Date();
   return date.getMonth() === month - 1 && date.getDate() === day;
+}
+
+function isSpecialDay() {
+  const { specialDates } = SCRIPT_CONFIG;
+  // could modify this function so that it uses some api, making it essencially a calendar widget
+  // if (specialDates.length === 0) {
+  //   return false;
+  // }
+  const date = new Date();
+  const specialMonth = specialDates[date.getMonth()];
+  if (!specialMonth) {
+    return false;
+  }
+  const specialDay = specialMonth.get(date.getDate());
+  if (!specialDay) {
+    return false;
+  }
+  return true;
+}
+
+function renderMsg(widget, msg) {
+  let textElement = widget.addText(msg);
+  textElement.textColor = Color.white();
+  textElement.textOpacity = 0.9;
+  textElement.font = Font.boldSystemFont(20);
 }
