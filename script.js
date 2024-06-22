@@ -49,10 +49,10 @@ async function createWidget() {
 
   widget.addSpacer(4);
 
-  if (isBDay()) {
+  const date = new Date();
+  if (isBDay(date)) {
     renderMsg(widget, SCRIPT_CONFIG.bDayMsg);
-  } else if (isSpecialDay()) {
-    const date = new Date();
+  } else if (isSpecialDay(date)) {
     renderMsg(
       widget,
       SCRIPT_CONFIG.specialDates[date.getMonth()].get(date.getDate()) || ""
@@ -78,22 +78,20 @@ async function loadRandomImage() {
   return req.loadImage();
 }
 
-function isBDay() {
+function isBDay(date) {
   const { month, day } = SCRIPT_CONFIG;
   if (!month || !day) {
     return false;
   }
-  const date = new Date();
   return date.getMonth() === month - 1 && date.getDate() === day;
 }
 
-function isSpecialDay() {
+function isSpecialDay(date) {
   const { specialDates } = SCRIPT_CONFIG;
   // could modify this function so that it uses some api, making it essencially a calendar widget
   // if (specialDates.length === 0) {
   //   return false;
   // }
-  const date = new Date();
   const specialMonth = specialDates[date.getMonth()];
   if (!specialMonth) {
     return false;
